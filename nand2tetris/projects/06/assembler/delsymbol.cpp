@@ -1,6 +1,3 @@
-#include <bits/stdc++.h>
-using namespace std;
-
 void simple_init(map<string,int> &result) {
     for (int i = 0; i < 16; ++i) {
         string tmp = "R";

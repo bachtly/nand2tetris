@@ -1,6 +1,3 @@
-#include <bits/stdc++.h>
-using namespace std;
-
 void make_table(map<string, string> &compTable, map<string, string> &destTable, map<string, string> &jumpTable);
 
 int toInt(const string &s);

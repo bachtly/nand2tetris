@@ -43,26 +43,37 @@ CHIP ALU {
 
     PARTS:
     // Put you code here:
-    Mux16(a=x, b=false, sel=zx, out=x0);//zx
-    Not16(in=x0, out=notx0);  //nx
+
+    //zx
+    Mux16(a=x, b=false, sel=zx, out=x0);
+
+    //nx
+    Not16(in=x0, out=notx0);  
     Mux16(a=x0, b=notx0, sel=nx, out=x1);
 
-    Mux16(a=y, b=false, sel=zy, out=y0);//zy
-    Not16(in=y0, out=noty0);  //ny
+    //zy
+    Mux16(a=y, b=false, sel=zy, out=y0);
+
+    //ny
+    Not16(in=y0, out=noty0);  
     Mux16(a=y0, b=noty0, sel=ny, out=y1);
 
+    //f
     Add16(a=x1, b=y1, out=xAddy);
     And16(a=x1, b=y1, out=xAndy);
     Mux16(a=xAndy, b=xAddy, sel=f, out=out0);
-    //Not16(in=out0, out=notout0);  //no
-    //Mux16(a=out0, b=notout0, sel=no, out=out);
 
+    //no
     Not16(in=out0, out=negatedResult);
-    Mux16(a=out0, b=negatedResult, sel=no, out=out, out[15]=firstOut, out[0..7]=finalLeft, out[8..15]=finalRight);//have to assign in a internal wire
-    Or8Way(in=finalLeft, out=zrl);
-    Or8Way(in=finalRight, out=zrr);
+    Mux16(a=out0, b=negatedResult, sel=no, out=out, out[15]=signBit, out[0..7]=Left, out[8..15]=Right);
+    //have to assign in a internal wire
+
+    //zr
+    Or8Way(in=Left, out=zrl);
+    Or8Way(in=Right, out=zrr);
     Or(a=zrl, b=zrr, out=nzr);
     Not(in=nzr, out=zr);
-
-    Mux(a=false, b=true, sel=firstOut, out=ng);
+    
+    //ng
+    Mux(a=false, b=true, sel=signBit, out=ng);
 }

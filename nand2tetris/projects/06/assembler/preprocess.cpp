@@ -1,6 +1,3 @@
-#include <bits/stdc++.h>
-using namespace std;
-
 void cut_spaces(string &s) {
     string result = "";
     for (char c : s) 

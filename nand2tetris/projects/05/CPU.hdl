@@ -40,20 +40,28 @@ CHIP CPU {
 
     PARTS:
     // Put your code here:
+
+    //A-type if instruction[15]==0
     Not(in=instruction[15], out=Ains);
     Not(in=Ains, out=Cins);
     
-    And(a=Cins, b=instruction[5], out=ALUtoA);    // Cins with dest to Areg
+    // Cins with dest to Areg 
+    And(a=Cins, b=instruction[5], out=ALUtoA);    
+    // MUX A-type address OR C-type and ALUout
     Mux16(a=instruction, b=ALUout, sel=ALUtoA, out=Aregin);
     
+    // Decide whether to load to Areg
     Or(a=Ains, b=ALUtoA, out=loadA);    
     ARegister(in=Aregin, load=loadA, out=Aout); // load A if (Ains || (Cins && dest to Areg))
     
-    Mux16(a=Aout, b=inM, sel=instruction[12], out=AMout);   //select A or M 
-
+    //select A or M for ALU input
+    Mux16(a=Aout, b=inM, sel=instruction[12], out=AMout);    
+    
+    //load D or not
     And(a=Cins, b=instruction[4], out=loadD);
     DRegister(in=ALUout, load=loadD, out=Dout);    // load the Dreg
     
+    //handle ALU
     ALU(x=Dout, y=AMout, zx=instruction[11], nx=instruction[10], 
         zy=instruction[9], ny=instruction[8], f=instruction[7],
         no=instruction[6], out=ALUout, zr=ZRout, ng=NGout); // calculate
@@ -64,7 +72,7 @@ CHIP CPU {
     And(a=Cins, b=instruction[3], out=writeM);
     
     // calc PCload & PCinc - whether to load PC with A reg
-    And(a=ZRout, b=instruction[1], out=jeq);    // JMP ?
+    And(a=ZRout, b=instruction[1], out=jeq);    // JEQ ?
     And(a=NGout, b=instruction[2], out=jlt);    // JLT ?
     Or(a=ZRout, b=NGout, out=zeroOrNeg);
     Not(in=zeroOrNeg, out=positive);            // >0 ?

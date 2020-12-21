@@ -1,0 +1,17 @@
+Project 1: Draw truth-tables
+Project 2: 
+	_ Output of FullAdder carry is OR
+	_ ALU is just bunch of if else (remember internal bus)
+Project 3:
+a	_ Bit uses DFF to use the sequential -> register uses 8 Bits
+	_ PC has if-else hierachy (the higher if will be the lower code in hdl)
+	_ RAM access address, but how ? ? ? -> Base on their order.
+b	_ Base on first 3 bits to MUX and DEMUX 8 smaller RAM
+Project 4:
+	_ Fill will be used to interview
+Project 5:
+	_ Memory
+	_ CPU
+	_ Computer
+Project 6: 
+	_ Nothing to do
